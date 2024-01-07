@@ -87,9 +87,3 @@ body{
     background: url(../images/buttonadminhover.svg);
 }
 
-.events__logo{
-    background: url(../images/logobig.svg);
-    display: block; 
-    width: 102px; 
-    height: 101px;
-}
