@@ -130,3 +130,4 @@ class DBmanager:
             print("Ошибка получения данных из БД ")
 
         return False
+    print('hello w3ord')
