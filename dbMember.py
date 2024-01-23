@@ -1,5 +1,5 @@
 import math
-import  time
+import time
 from mysql.connector import connect, Error
 class DBmanager:
     def __init__(self,host, user, passwd, name):
@@ -67,25 +67,24 @@ class DBmanager:
             print(e)
             return None
 
-    def addEvent(self,name, date, time):
+    def addMember(self,name,team):
         try:
             print(name)
-            print(date)
-            print(time)
-            event=(name, date, time)
-            self.query("""CREATE TABLE IF NOT EXISTS events(id INT AUTO_INCREMENT PRIMARY KEY, name text, date text, time text)""")
-            self.query("INSERT INTO events(name, date, times) VALUES(%s, %s, %s)", event )
+            print(team)
+            member=(name, team)
+            self.query("""CREATE TABLE IF NOT EXISTS events(id INT AUTO_INCREMENT PRIMARY KEY, name text, team text)""")
+            self.query("INSERT INTO member(name, team) VALUES(%s, %s)", member )
         except Exception as e:
             print(e)
-            print("Ошибка добавления мероприятия в БД ")
+            print("Ошибка добавления участника в БД ")
             return False
         return True
 
-    def getEvent(self, event_id):
+    def getMember(self, member_id):
         try:
-            res=self.fetchone(f"SELECT * FROM events WHERE id = {event_id}")
+            res=self.fetchone(f"SELECT * FROM member WHERE id = {member_id}")
             if not res:
-                print("Мероприятие не найдено")
+                print("Участник не найден")
                 return False
             return res
         except:
