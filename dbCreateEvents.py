@@ -67,15 +67,14 @@ class DBmanager:
             print(e)
             return None
 
-    def addEvent(self,name, date, time, description ):
+    def addEvent(self,name, date, time):
         try:
             print(name)
             print(date)
             print(time)
-            print(description)
-            event=(name, date, time, description)
+            event=(name, date, time)
             self.query("""CREATE TABLE IF NOT EXISTS events(id INT AUTO_INCREMENT PRIMARY KEY, name text, date text, time text, description text)""")
-            self.query("INSERT INTO events(name, date, time, description) VALUES(%s, %s, %s)", event )
+            self.query("INSERT INTO events(name, date, times) VALUES(%s, %s, %s)", event )
         except Exception as e:
             print(e)
             print("Ошибка добавления мероприятия в БД ")
