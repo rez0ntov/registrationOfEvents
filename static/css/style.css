@@ -70,7 +70,7 @@ body{
 
 }
 
-.events__buttons{
+.events__buttons--text{
     color: #FFF;
     background-color: #728FCE;
     display: block;
@@ -89,7 +89,7 @@ body{
     transition: all .2s;
 }
 
-.events__buttons:hover {
+.events__buttons--text:hover {
     color: #728FCE;
     background-color: #FFF;
 }
@@ -101,5 +101,15 @@ body{
     height: 265px;
 }
 
+.events__buttons--admin{
+    background: url(../images/buttonadmin.svg); 
+    display: block; 
+    width: 298px; 
+    height: 261px;
+    transition: all .4s;
+}
 
+.events__buttons--admin:hover{
+    background: url(../images/buttonadminhover.svg);
+}
 
