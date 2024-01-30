@@ -105,29 +105,3 @@ class DBmanager:
 
         return False
 
-    def addEvent(self,name, date, time, description):
-        try:
-            print(name)
-            print(date)
-            print(time)
-            print(description)
-            event=(name, date, time, description)
-            self.query("""CREATE TABLE IF NOT EXISTS events(id INT AUTO_INCREMENT PRIMARY KEY, name text, date text, time text, description text)""")
-            self.query("INSERT INTO users(name, date, time, description) VALUES(%s, %s, %s)", event )
-        except:
-            print("Ошибка добавления мероприятия в БД ")
-            return False
-        return True
-
-    def getEvent(self, event_id):
-        try:
-            res=self.fetchone(f"SELECT * FROM events WHERE id = {event_id}")
-            if not res:
-                print("Мероприятие не найдено")
-                return False
-            return res
-        except:
-            print("Ошибка получения данных из БД ")
-
-        return False
-    print('hello w3ord')
