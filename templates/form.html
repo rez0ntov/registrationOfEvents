@@ -4,18 +4,22 @@
 {% endblock %}
 {% block body %}
 <div class="container">
-    <form action="{{ url_for('read_form')}}" method="post">
-                <label for="event" class="form-label">Название мероприятия</label>
+    <div class="form--container">
+        <div class="form--items">
+            <form action="{{ url_for('read_form')}}" method="post">
+                <label for="event" class="form-label"><p>Название мероприятия</p></label>
                 <input name="eventName" type="text" class="form-control" id="event">
-                <label for="date" class="form-label">Дата</label>
+                <label for="date" class="form-label"><p>Дата</p></label>
                 <input name="date" type="date" class="form-control" id="date">
-                <label for="team" class="form-label">Команда</label>
+                <label for="team" class="form-label"><p>Команда</p></label>
                 <input name="team" class="form-control" id="team">
-                <label for="members" class="form-label">Участники</label>
+                <label for="members" class="form-label"><p>Участники</p></label>
                 <input name="members" class="form-control" id="members">
                 </br>
                 </br>
-                <button type="submit" class="btn btn-primary">Отправить</button>
+                <button type="submit" class="btn btn-primary"><p>Отправить</p></button>
             </form>
+        </div>
     </div>
+</div>
 {% endblock %}
