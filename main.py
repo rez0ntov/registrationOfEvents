@@ -5,10 +5,10 @@ app = Flask(__name__)
 
 @app.route("/")
 def admin_login():
-    return admin_login('admin_login.html')
-@app.route("/form.html")
+    return render_template('admin_login.html')
+@app.route("/form")
 def form():
-    return form('form.html')
+    return render_template('form.html')
 
 @app.route("/read_form", methods=['POST'])
 def read_form():
