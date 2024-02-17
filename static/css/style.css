@@ -118,13 +118,29 @@ body{
     background-color: #FFFAFA ;
     border-radius: 30px;
     width: 600px;
-    align-items: center;
-    text-align: center;
     margin: 10% auto;
-
 }
 .form--items:hover{
     background-color: #F8F8FF ;
+}
+.inputs{
+    align-items: center;
+    text-align: center;
+}
+.back{
+    text-align: -webkit-right;
+    padding-bottom: 20px;
+}
+.back a{
+    font-size: 15px;
+    color: #728FCE;
+    border-bottom: 3px solid #728FCE;
+    font-family: "Saira Semi Condensed", sans-serif;
+    letter-spacing: 6px;
+}
+.back a:hover{
+    color: #1f4eb4;
+    border-color: #1f4eb4;
 }
 input{
     border-radius: 30px;
