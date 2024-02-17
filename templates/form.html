@@ -3,21 +3,19 @@
 Форма для отправки данных
 {% endblock %}
 {% block body %}
-<div class="container">
-    <div class="form--container">
-        <div class="form--items">
+<div class="form">
+    <div class="container">
+         <div class="form--items">
             <form action="{{ url_for('read_form')}}" method="post">
-                <label for="event" class="form-label"><p>Название мероприятия</p></label>
+                <label for="event" class="form-label"><p>название мероприятия</p></label>
                 <input name="eventName" type="text" class="form-control" id="event">
-                <label for="date" class="form-label"><p>Дата</p></label>
-                <input name="date" type="date" class="form-control" id="date">
-                <label for="team" class="form-label"><p>Команда</p></label>
+                <label for="date" class="form-label"><p>дата</p></label>
+                <input name="date" type="text" onfocus="(this.type='date')" class="form-control" id="date">
+                <label for="team" class="form-label"><p>команда</p></label>
                 <input name="team" class="form-control" id="team">
-                <label for="members" class="form-label"><p>Участники</p></label>
+                <label for="members" class="form-label"><p>участники</p></label>
                 <input name="members" class="form-control" id="members">
-                </br>
-                </br>
-                <button type="submit" class="btn btn-primary"><p>Отправить</p></button>
+                <div class="btn--form"><button type="submit" class="btn btn-primary"><p>отправить</p></button></div>
             </form>
         </div>
     </div>

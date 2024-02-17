@@ -4,14 +4,11 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 @app.route("/")
-def index():
-    return render_template('form.html')
-@app.route("/test")
-def test():
-    return render_template('reg.html')
-@app.route("/registration")
-def registration():
-    return render_template('form.html')
+def admin_login():
+    return admin_login('admin_login.html')
+@app.route("/form.html")
+def form():
+    return form('form.html')
 
 @app.route("/read_form", methods=['POST'])
 def read_form():
