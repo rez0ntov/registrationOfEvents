@@ -3,12 +3,16 @@ from config import *
 from flask import Flask, render_template, request
 app = Flask(__name__)
 
+
 @app.route("/")
 def admin_login():
     return render_template('admin_login.html')
 @app.route("/form")
 def form():
     return render_template('form.html')
+@app.route("/eventslist")
+def eventslist():
+    return render_template('eventslist.html')
 
 @app.route("/read_form", methods=['POST'])
 def read_form():
