@@ -18,11 +18,11 @@ class DBmanager():
         self.qery('''CREATE TABLE IF NOT EXISTS Events(name text, date text, time text, description text)''')
 
 
-    def fetchall(self,arg,values=None):
-        if values==None:
+    def fetchall( self , arg , values= None):
+        if values == None:
             self.cur.execute(arg)
         else:
-            self.cur.execute(arg,values)
+            self.cur.execute(arg, values)
         return self.cur.fetchall()
 
     def fetchone(self,arg,values=None):
