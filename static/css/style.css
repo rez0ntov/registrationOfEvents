@@ -262,4 +262,8 @@ footer p{
 .button--list:hover{
     background-color: #5f8bea;
 }
+.list--item__positions{
+    display: flex;
+    padding-bottom: 10px;
+}
 

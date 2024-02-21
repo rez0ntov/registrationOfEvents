@@ -3,4 +3,21 @@
 Список мероприятий
 {% endblock %}
 {% block body %}
+    <div class="container">
+        <div class="list--items">
+            <div class="list--item__btn">
+                <div class="back">
+                        <a href="#" onclick="history.back();">на главную</a>
+                </div>
+            </div>
+            <div class="list--item__positions">
+                <ul>
+                    <li><p>{{ result[0] }}</p></li>
+                    <li><p>{{ result[1] }}</p></li>
+                    <li><p>{{ result[2] }}</p></li>
+                    <li><p>{{ result[3] }}</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}
