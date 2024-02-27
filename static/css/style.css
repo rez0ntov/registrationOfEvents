@@ -367,5 +367,33 @@ label[for=no] {
 #no:checked ~ .switch label[for=no] {
   color: #fff;
 }
+.list--item__positions{
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.list--item__positions p{
+    text-align: center;
+    font-size: 25px;
+    font-family: "Saira Semi Condensed", sans-serif;
+    letter-spacing: 7px;
+    color: #728FCE;
+
+}
+.list--item__positions ul{
+    border: 3px solid #728FCE;
+    border-radius: 30px;
+    padding: 20px;
+
+}
+.list--item__positions li{
+    text-align: center;
+    font-size: 18px;
+    font-family: "Saira Semi Condensed", sans-serif;
+    letter-spacing: 7px;
+    color: #000;
+}
+
+
+
 
 
