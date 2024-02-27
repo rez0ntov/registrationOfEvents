@@ -11,12 +11,11 @@
                 </div>
             </div>
             <div class="list--item__positions">
-                <ul>
-                    <li><p>{{ result[0] }}</p></li>
-                    <li><p>{{ result[1] }}</p></li>
-                    <li><p>{{ result[2] }}</p></li>
-                    <li><p>{{ result[3] }}</p></li>
-                </ul>
+                {% for i in result %}
+                <p> {{ i[1] }}</p>
+<!--                <p> {{ result[2] }}</p>-->
+<!--                <p> {{ result[3] }}</p>-->
+                {% endfor %}
             </div>
         </div>
     </div>

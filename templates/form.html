@@ -16,14 +16,18 @@
                      <input name="eventName" type="text" class="form-control" id="event">
                      <label for="date" class="form-label"><p>дата</p></label>
                      <input name="date" type="text" onfocus="(this.type='date')" class="form-control" id="date">
-                     <label for="team" class="form-label"><p>команда</p></label>
-                     <input name="team" class="form-control" id="team">
-                     <label for="members" class="form-label"><p>участники</p></label>
-                     <input name="members" class="form-control" id="members">
+                     <input type="radio" name="team" id="yes" checked />
+                     <input type="radio" name="team" id="no"/>
+                     <p>наличие команды</p>
+                     <div class="switch">
+                         <label for="yes" >да</label>
+                         <label for="no" >нет</label>
+                         <span></span>
+                     </div>
                      <div class="btn--form"><button type="submit" class="btn btn-primary"><p>отправить</p></button></div>
                  </form>
              </div>
-        </div>
+         </div>
     </div>
 </div>
 {% endblock %}
