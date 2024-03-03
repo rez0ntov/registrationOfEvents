@@ -1,0 +1,46 @@
+{% extends 'inner.html' %}
+{% block title %}
+Авторизация
+{% endblock %}
+{% block body %}
+<section id="hero" class="hero d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">Авторизуйтесь</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400"></h2>
+          <div data-aos="fade-up" data-aos-delay="600">
+            <div class="text-center text-lg-start">
+
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+          <img src="{{ url_for('static',filename='assets/img/hero-img.png') }}" class="img-fluid" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+
+    </div>
+    <div class="col-4">
+      <form action="" method="post" class="form-contact">
+      <p><label>Email: </label> <input type="text" name="email" value="" required />
+      <p><label>Пароль: </label> <input type="password" name="psw" value="" required />
+      <p><input type="checkbox" name="remainme" /> Запомнить меня
+      <p><input class="btn btn-primary" type="submit" value="Войти" />
+      <hr align=left width="300px">
+      </form>
+    </div>
+    <div class="col-4">
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

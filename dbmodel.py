@@ -7,7 +7,6 @@ class DBmanager:
         self.user=user
         self.passwd=passwd
         self.name=name
-
     def query(self, arg, values=None):
         try:
             with connect(
@@ -104,4 +103,5 @@ class DBmanager:
             print("Ошибка получения данных из БД ")
 
         return False
+
 
