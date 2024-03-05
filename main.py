@@ -4,12 +4,13 @@ from dbmodel import DBmanager
 from UserLogin import UserLogin
 from config import *
 from flask import Flask, render_template, request, redirect, url_for, flash
-
+SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
 app = Flask(__name__)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = "Авторизуйтесь для доступа к закрытым страницам"
 login_manager.login_message_category = "success"
+app.secret_key = SECRET_KEY
 
 
 @login_manager.user_loader
@@ -19,11 +20,11 @@ def load_user(user_id):
     return UserLogin().fromDB(int(user_id), dbase)
 
 
-@app.route("/", methods=["POST","GET"])
+@app.route("/login", methods=["POST","GET"])
 def login():
-    dbase=DBmanager(host="mysql94.1gb.ru", user="gb_regkv", passwd="KHKFrmM-85pK", name="gb_regkv")
+    dbase = DBmanager(host="mysql94.1gb.ru", user="gb_regkv", passwd="KHKFrmM-85pK", name="gb_regkv")
     if current_user.is_authenticated:
-        return redirect(url_for('newstat'))
+        return redirect(url_for('admin_login'))
 
     if request.method == "POST":
         user = dbase.getUserByEmail(request.form['email'])
@@ -38,22 +39,21 @@ def login():
     return render_template("login.html")
 
 
-@app.route('/admin-password')
+@app.route('/log')
 def reg():
     return render_template('login.html')
 
-
-
-@app.route("/register", methods=["POST","GET"])
-def register():
-    dbase = DBmanager(host="mysql94.1gb.ru", user="gb_regkv", passwd="KHKFrmM-85pK", name="gb_regkv")
-    print(request.form['psw'])
-    hash = generate_password_hash(request.form['psw'])
-    res = dbase.addUser(request.form['name'], request.form['email'], hash)
-    print(res)
-    return render_template("register.html")
-
-
+#
+# @app.route("/register", methods=["POST","GET"])
+# def register():
+#     dbase = DBmanager(host="mysql94.1gb.ru", user="gb_regkv", passwd="KHKFrmM-85pK", name="gb_regkv")
+#     print(request.form['psw'])
+#     hash = generate_password_hash(request.form['psw'])
+#     res = dbase.addUser(request.form['name'], request.form['email'], hash)
+#     print(res)
+#     return render_template("register.html")
+#
+#
 # @app.route('/reg')
 # def reg():
 #     return render_template('reg.html')
