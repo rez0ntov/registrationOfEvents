@@ -1,20 +1,23 @@
-from flask_login import current_user, login_user, logout_user, login_manager, LoginManager, login_required
+from flask_login import current_user, login_user, logout_user, LoginManager, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 from dbmodel import DBmanager
 from UserLogin import UserLogin
 from config import *
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
-LoginManager = LoginManager(app)
+login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = "Авторизуйтесь для доступа к закрытым страницам"
 login_manager.login_message_category = "success"
+
+
 @login_manager.user_loader
 def load_user(user_id):
     dbase = DBmanager(host="mysql94.1gb.ru", user="gb_regkv", passwd="KHKFrmM-85pK", name="gb_regkv")
     print("load_user")
-    return UserLogin().fromDB(user_id, dbase)
+    return UserLogin().fromDB(int(user_id), dbase)
+
 
 @app.route("/", methods=["POST","GET"])
 def login():
@@ -50,9 +53,11 @@ def register():
     print(res)
     return render_template("register.html")
 
-@app.route('/reg')
-def reg():
-    return render_template('reg.html')
+
+# @app.route('/reg')
+# def reg():
+#     return render_template('reg.html')
+
 
 @app.route('/logout')
 @login_required
@@ -61,12 +66,17 @@ def logout():
     flash("Вы вышли из аккаунта", "success")
     return redirect(url_for('login'))
 
+
 @app.route("/admin_login")
 def admin_login():
     return render_template('admin_login.html')
+
+
 @app.route("/form")
 def form():
     return render_template('form.html')
+
+
 @app.route("/eventslist")
 def eventslist():
     base = DBmanager(host, user, password, name)
@@ -77,6 +87,7 @@ def eventslist():
     except:
         print('error')
     return render_template('eventslist.html',result=result)
+
 
 @app.route("/read_form", methods=['POST'])
 def read_form():
@@ -89,6 +100,7 @@ def read_form():
     dictsend = (eventname, date, team)
     base.query('''INSERT INTO Events(name, date, team) VALUES (%s, %s, %s)''', dictsend)
     return render_template('read_form.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
