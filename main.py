@@ -67,21 +67,27 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route("/admin_login")
-def admin_login():
-    return render_template('admin_login.html')
+@app.route("/")
+@app.route("/index")
+def index():
+    return render_template('index.html')
 
 
-@app.route("/form")
+# @app.route("/form")
+# def form():
+#     return render_template('form.html')
+
+@app.route("/createevent")
 def form():
-    return render_template('form.html')
+    return render_template('createevent.html')
+
 
 
 @app.route("/eventslist")
 def eventslist():
     base = DBmanager(host, user, password, name)
     try:
-        result = base.fetchall('SELECT * FROM Events')
+        result = base.fetchall('SELECT * FROM events')
         for x in result:
             print(x)
     except:
@@ -89,17 +95,32 @@ def eventslist():
     return render_template('eventslist.html',result=result)
 
 
-@app.route("/read_form", methods=['POST'])
-def read_form():
+# @app.route("/read_form", methods=['POST'])
+# def read_form():
+#     base = DBmanager(host,user,password,name)
+#     base.query('''CREATE TABLE IF NOT EXISTS Events(name text, date date, team text)''')
+#     data = request.form
+#     eventname = data['eventName']
+#     date = data['date']
+#     team = data['team']
+#     dictsend = (eventname, date, team)
+#     base.query('''INSERT INTO Events(name, date, team) VALUES (%s, %s, %s)''', dictsend)
+#     return render_template('read_form.html')
+
+@app.route("/read_createevent", methods=['POST'])
+def read_createevent():
     base = DBmanager(host,user,password,name)
-    base.query('''CREATE TABLE IF NOT EXISTS Events(name text, date date, team text)''')
+    base.query('''CREATE TABLE IF NOT EXISTS events(name text, date1 date, time1 time, date2 date, time2 time, team bool)''')
     data = request.form
     eventname = data['eventName']
-    date = data['date']
+    date1 = data['date1']
+    time1 = data['time1']
+    date2 = data['date2']
+    time2 = data['time2']
     team = data['team']
-    dictsend = (eventname, date, team)
-    base.query('''INSERT INTO Events(name, date, team) VALUES (%s, %s, %s)''', dictsend)
-    return render_template('read_form.html')
+    dictsend = (eventname, date1, time1, date2, time2, team)
+    base.query('''INSERT INTO events(name, date1, time1, date2, time2, team) VALUES (%s, %s, %s, %s, %s, %s)''', dictsend)
+    return render_template('createevent.html')
 
 
 if __name__ == '__main__':
