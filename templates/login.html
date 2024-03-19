@@ -3,6 +3,7 @@
 Авторизация
 {% endblock %}
 {% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/formfooter.css')}}">
 <section id="hero" class="hero d-flex align-items-center">
 
     <div class="container">
@@ -24,9 +25,11 @@
 
   </section><!-- End Hero -->
 <div class="container">
+  <div class="login--title">
+    <p>Войдите в аккаунт</p>
+  </div>
   <div class="row">
     <div class="col-4">
-
     </div>
     <div class="col-4">
       <form action="" method="post" class="form-contact">

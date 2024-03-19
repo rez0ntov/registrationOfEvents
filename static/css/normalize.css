@@ -347,3 +347,8 @@ template {
 [hidden] {
   display: none;
 }
+.login--title p{
+    display: flex;
+    color: #ff0000;
+    text-align: center;
+}
