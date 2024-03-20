@@ -7,8 +7,4 @@
 .d-flex {
     display:none !important;
 }
-.card-body{
-    display: flex;
-    border: 1px solid #FFFFFF;
-    background-color: #fff;
-}
+

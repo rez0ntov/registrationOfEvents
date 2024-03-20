@@ -3,7 +3,7 @@
 Список мероприятий
 {% endblock %}
 {% block body %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/formfooter.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
@@ -240,7 +240,7 @@
     </ul>
 
   </aside><!-- End Sidebar-->
-  
+
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -252,7 +252,7 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-    
+
     {% for i in result %}
     <section class="section dashboard">
     <div class="row">
@@ -295,7 +295,6 @@
 
               <!-- </div> -->
             <!-- </div>End Sales Card -->
-    
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
@@ -303,22 +302,27 @@
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
+                      <h6>Редактировать</h6>
                     </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><a class="dropdown-item" href="#">Название</a></li>
+                    <li><a class="dropdown-item" href="#">Дату начала</a></li>
+                    <li><a class="dropdown-item" href="#">Время начала</a></li>
+                    <li><a class="dropdown-item" href="#">Дату конца</a></li>
+                    <li><a class="dropdown-item" href="#">Время конца</a></li>
+                    <li><a class="dropdown-item" href="#">Удалить</a></li>
                   </ul>
                 </div>
-
                 <div class="card-body">
-                  <h5 class="card-title">{{ i[0] }} <span>| Название мероприятия</span></h5>
-                  <p>{{ i[1] }} <span>| Дата начала мероприятия</span></p>
-                  <p>{{ i[2] }} <span>| Время начала мероприятия</span></p>
-                  <p>{{ i[3] }} <span>| Дата конца мероприятия</span></p>
-                  <p>{{ i[4] }} <span>| Время конца мероприятия</span></p>
-                </div>
+                  <ul>
+                    <li><h5 class="card-title">{{ i[0] }} <span>| Название мероприятия</span></h5></li>
+                    <li><p class="card-title">{{ i[1] }} <span>| Дата начала мероприятия</span></p></li>
+                    <li><p class="card-title">{{ i[2] }} <span>| Время начала мероприятия</span></p></li>
+                    <li><p class="card-title">{{ i[3] }} <span>| Дата конца мероприятия</span></p></li>
+                    <li><p class="card-title">{{ i[4] }} <span>| Время конца мероприятия</span></p></li>
+                  </ul>
+               </div>
+              </div>
     </section>
     {% endfor %}
   </main><!-- End #main -->
