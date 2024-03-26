@@ -106,7 +106,15 @@ def createevent():
 def eventslist():
     base = DBmanager(host, user, password, name)
     try:
-        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'), DATE_FORMAT(time1, '%H.%i'), DATE_FORMAT(date2, '%d.%m'), DATE_FORMAT(time2, '%H.%i') FROM events''')
+        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'), DATE_FORMAT(time1, '%H.%i'),
+                                  CASE
+                                      WHEN date2 = date1
+                                          THEN ' '
+                                      WHEN date2 <> date1
+                                          THEN DATE_FORMAT(date2, '%d.%m')
+                                  END AS date2,
+                                  DATE_FORMAT(time2, '%H.%i')
+                                  FROM events;''')
         for x in result:
             print(x)
     except:
@@ -138,7 +146,7 @@ def read_createevent():
     time2 = data['time2']
     team = data['team']
     dictsend = (eventname, date1, time1, date2, time2, team)
-    base.query('''INSERT INTO events(name, date1, time1, date2, time2, team) VALUES (%s, %s, %s, %s, %s, %s)''', dictsend)
+    base.query('''INSERT INTO events(name, date1, time1, date2, time2, team) VALUES (%s, %s, %s, %s, %s, %s) ''', dictsend)
     return render_template('createevent.html')
 
 
