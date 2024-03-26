@@ -87,9 +87,22 @@ def login():
         flash("Неверная пара логин/пароль", "error")
 
     return render_template("login.html")
+
+
 @app.route("/index")
 def index():
-    return render_template('index.html')
+    base = DBmanager(host, user, password, name)
+    try:
+        result = base.fetchall('''SELECT name,
+                                  DATE_FORMAT(date1, '%d.%m'),
+                                  DATE_FORMAT(date2, '%d.%m')
+                                  FROM events
+                                  WHERE CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2''')
+        for x in result:
+            print(x)
+    except:
+        print('error')
+    return render_template('index.html', result=result)
 
 
 @app.route("/form")
@@ -106,14 +119,13 @@ def createevent():
 def eventslist():
     base = DBmanager(host, user, password, name)
     try:
-        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'), DATE_FORMAT(time1, '%H.%i'),
+        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),
                                   CASE
                                       WHEN date2 = date1
                                           THEN ' '
                                       WHEN date2 <> date1
                                           THEN DATE_FORMAT(date2, '%d.%m')
-                                  END AS date2,
-                                  DATE_FORMAT(time2, '%H.%i')
+                                  END AS date2
                                   FROM events;''')
         for x in result:
             print(x)
@@ -137,16 +149,14 @@ def read_form():
 @app.route("/read_createevent", methods=['POST'])
 def read_createevent():
     base = DBmanager(host,user,password,name)
-    base.query('''CREATE TABLE IF NOT EXISTS events(name text, date1 date, time1 time, date2 date, time2 time, team bool)''')
+    base.query('''CREATE TABLE IF NOT EXISTS events(name text, date1 date, date2 date, team bool)''')
     data = request.form
     eventname = data['eventName']
     date1 = data['date1']
-    time1 = data['time1']
     date2 = data['date2']
-    time2 = data['time2']
     team = data['team']
     dictsend = (eventname, date1, time1, date2, time2, team)
-    base.query('''INSERT INTO events(name, date1, time1, date2, time2, team) VALUES (%s, %s, %s, %s, %s, %s) ''', dictsend)
+    base.query('''INSERT INTO events(name, date1, date2, team) VALUES (%s, %s, %s, %s) ''', dictsend)
     return render_template('createevent.html')
 
 
