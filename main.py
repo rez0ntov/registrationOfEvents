@@ -106,7 +106,7 @@ def createevent():
 def eventslist():
     base = DBmanager(host, user, password, name)
     try:
-        result = base.fetchall('SELECT * FROM events')
+        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'), DATE_FORMAT(time1, '%H.%i'), DATE_FORMAT(date2, '%d.%m'), DATE_FORMAT(time2, '%H.%i') FROM events''')
         for x in result:
             print(x)
     except:
