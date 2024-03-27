@@ -1235,3 +1235,12 @@ h6 {
 .textdate {
   color: #aab7cf;
 }
+
+.texttoday {
+  color: #71B293;
+  margin-left: 7px;
+}
+
+.create{
+  margin-top: 15px;
+}

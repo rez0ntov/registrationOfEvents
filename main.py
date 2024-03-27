@@ -93,9 +93,19 @@ def login():
 def index():
     base = DBmanager(host, user, password, name)
     try:
-        result = base.fetchall('''SELECT name,
-                                  DATE_FORMAT(date1, '%d.%m'),
-                                  DATE_FORMAT(date2, '%d.%m')
+        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
+                                  CASE
+                                      WHEN date2 = date1 
+                                          THEN ' ' 
+                                      WHEN date2 <> date1 
+                                          THEN DATE_FORMAT(date2, '%d.%m')
+                                  END AS date2,
+                                  CASE
+                                      WHEN date2 <> date1
+                                          THEN '-'
+                                      WHEN date2 = date1 
+                                          THEN '' 
+                                  END AS cherta
                                   FROM events
                                   WHERE CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2''')
         for x in result:
@@ -119,13 +129,25 @@ def createevent():
 def eventslist():
     base = DBmanager(host, user, password, name)
     try:
-        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),
+        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
                                   CASE
-                                      WHEN date2 = date1
-                                          THEN ' '
-                                      WHEN date2 <> date1
+                                      WHEN date2 = date1 
+                                          THEN ' ' 
+                                      WHEN date2 <> date1 
                                           THEN DATE_FORMAT(date2, '%d.%m')
-                                  END AS date2
+                                  END AS date2,
+                                  CASE
+                                      WHEN CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2
+                                          THEN 'сегодня' 
+                                      WHEN CURRENT_DATE() < date1 or CURRENT_DATE() > date2
+                                          THEN ' '
+                                  END AS active,
+                                  CASE
+                                      WHEN date2 <> date1
+                                          THEN '-'
+                                      WHEN date2 = date1 
+                                          THEN '' 
+                                  END AS cherta
                                   FROM events;''')
         for x in result:
             print(x)
@@ -155,7 +177,7 @@ def read_createevent():
     date1 = data['date1']
     date2 = data['date2']
     team = data['team']
-    dictsend = (eventname, date1, time1, date2, time2, team)
+    dictsend = (eventname, date1, date2, team)
     base.query('''INSERT INTO events(name, date1, date2, team) VALUES (%s, %s, %s, %s) ''', dictsend)
     return render_template('createevent.html')
 
