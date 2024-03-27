@@ -103,5 +103,7 @@ class DBmanager:
             print("Ошибка получения данных из БД ")
 
         return False
+    
+    
 
 

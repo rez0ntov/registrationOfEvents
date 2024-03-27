@@ -182,6 +182,17 @@ def read_createevent():
     return render_template('createevent.html')
 
 
+@app.route("/event<id>")
+def event(id):
+     base = DBmanager(host, user, password, name)
+     try:
+         result = base.fetchall(f"SELECT name, DATE_FORMAT(date1, '%d.%m'), DATE_FORMAT(date2, '%d.%m'), team FROM EEvents WHERE id = {id}")
+         print(result)
+     except:
+        print('error')
+     return render_template('event_id.html',result=result)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
