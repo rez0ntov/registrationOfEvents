@@ -106,7 +106,7 @@ def index():
                                       WHEN date2 = date1 
                                           THEN '' 
                                   END AS cherta
-                                  FROM events
+                                  FROM EEvents
                                   WHERE CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2''')
         for x in result:
             print(x)
@@ -148,7 +148,7 @@ def eventslist():
                                       WHEN date2 = date1 
                                           THEN '' 
                                   END AS cherta
-                                  FROM events;''')
+                                  FROM EEvents;''')
         for x in result:
             print(x)
     except:
@@ -171,14 +171,14 @@ def read_form():
 @app.route("/read_createevent", methods=['POST'])
 def read_createevent():
     base = DBmanager(host,user,password,name)
-    base.query('''CREATE TABLE IF NOT EXISTS events(name text, date1 date, date2 date, team bool)''')
+    base.query('''CREATE TABLE IF NOT EXISTS EEvents(id int PRIMARY KEY AUTO_INCREMENT, name text, date1 date, date2 date, team bool)''')
     data = request.form
     eventname = data['eventName']
     date1 = data['date1']
     date2 = data['date2']
     team = data['team']
     dictsend = (eventname, date1, date2, team)
-    base.query('''INSERT INTO events(name, date1, date2, team) VALUES (%s, %s, %s, %s) ''', dictsend)
+    base.query('''INSERT INTO EEvents(name, date1, date2, team) VALUES (%s, %s, %s, %s) ''', dictsend)
     return render_template('createevent.html')
 
 
