@@ -171,7 +171,7 @@ def read_form():
 @app.route("/read_createevent", methods=['POST'])
 def read_createevent():
     base = DBmanager(host,user,password,name)
-    base.query('''CREATE TABLE IF NOT EXISTS EEvents(id int PRIMARY KEY AUTO_INCREMENT, name text, date1 date, date2 date, team bool)''')
+    base.query('''CREATE TABLE IF NOT EXISTS EEvents(id int PRIMARY KEY AUTO_INCREMENT, name text, date1 date, date2 date, team text)''')
     data = request.form
     eventname = data['eventName']
     date1 = data['date1']
@@ -186,7 +186,7 @@ def read_createevent():
 def event(id):
      base = DBmanager(host, user, password, name)
      try:
-         result = base.fetchall(f"SELECT name, DATE_FORMAT(date1, '%d.%m'), DATE_FORMAT(date2, '%d.%m'), team FROM EEvents WHERE id = {id}")
+         result = base.fetchall(f"SELECT name, date1, date2, team FROM EEvents WHERE id = {id}")
          print(result)
      except:
         print('error')

@@ -256,7 +256,7 @@
     <section class="section dashboard">
      <div class="row">
       <!-- General Form Elements -->
-      <form action="{{ url_for('read_createevent')}}" method="post">
+      <form action="{{ url_for('read_createevent')}}" method="post" class=frfr>
         <div class="row mb-3">
           <label for="inputText" class="col-sm-2 col-form-label">Название</label>
           <div class="col-sm-10">
@@ -266,13 +266,13 @@
         <div class="row mb-3">
           <label for="inputDate" class="col-sm-2 col-form-label">Дата начала</label>
           <div class="col-sm-10">
-            <input name="date1" type="date" class="form-control" id="date1" >
+            <input name="date1" type="date" class="form-control" id="date1" value="{{result[0][1]}}">
           </div>
         </div>
         <div class="row mb-3">
           <label for="inputDate" class="col-sm-2 col-form-label">Дата окончания</label>
           <div class="col-sm-10">
-            <input name="date2" type="date" class="form-control" id="date2">
+            <input name="date2" type="date" class="form-control" id="date2" value="{{result[0][2]}}">
           </div>
         </div>
 
@@ -280,9 +280,9 @@
           <label class="col-sm-2 col-form-label">Тип</label>
           <div class="col-sm-10">
             <select name="team" class="form-select" id="team" required>
-              <option selected disabled value="">...</option>
-              <option value="1">Команды</option>
-              <option value="0">Участники</option>
+              <option selected disabled value=""> {{result[0][3]}} </option>
+              <option value="Команнды">Команды</option>
+              <option value="Участники">Участники</option>
             </select>
           </div>
         </div>
@@ -291,11 +291,14 @@
         <div class="row mb-3">
           <label class="col-sm-2 col-form-label"></label>
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary">Создать</button>
+            <button type="submit" class="btn btn-primary" disabled>Сохранить изменения</button>
           </div>
         </div>
       </form>
      </div>
     </section>
-</main><!-- End #main -->
+</main>
+
+<script src="{{ url_for('static', filename='assets/js/button.js')}}"></script>
+<!-- End #main -->
 {% endblock %}
