@@ -108,7 +108,7 @@ def index():
                                       WHEN date2 = date1 
                                           THEN '' 
                                   END AS cherta
-                                  FROM EEvents
+                                  FROM eEvents
                                   WHERE CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2''')
         for x in result:
             print(x)
