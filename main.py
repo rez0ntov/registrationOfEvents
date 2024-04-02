@@ -127,46 +127,46 @@ def createevent():
 
 
 
-# @app.route("/eventslist")
-# def eventslist():
-#     base = DBmanager(host, user, password, name)
-#     try:
-#         result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
-#                                   CASE
-#                                       WHEN date2 = date1 
-#                                           THEN ' ' 
-#                                       WHEN date2 <> date1 
-#                                           THEN DATE_FORMAT(date2, '%d.%m')
-#                                   END AS date2,
-#                                   CASE
-#                                       WHEN CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2
-#                                           THEN 'сегодня' 
-#                                       WHEN CURRENT_DATE() < date1 or CURRENT_DATE() > date2
-#                                           THEN ' '
-#                                   END AS active,
-#                                   CASE
-#                                       WHEN date2 <> date1
-#                                           THEN '-'
-#                                       WHEN date2 = date1 
-#                                           THEN '' 
-#                                   END AS cherta
-#                                   FROM EEvents;''')
-#         for x in result:
-#             print(x)
-#     except:
-#         print('error')
-#     return render_template('eventslist.html',result=result)
-
 @app.route("/eventslist")
 def eventslist():
     base = DBmanager(host, user, password, name)
     try:
-        result = base.fetchall('''SELECT name from eEvents''')
+        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
+                                  CASE
+                                      WHEN date2 = date1 
+                                          THEN ' ' 
+                                      WHEN date2 <> date1 
+                                          THEN DATE_FORMAT(date2, '%d.%m')
+                                  END AS date2,
+                                  CASE
+                                      WHEN CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2
+                                          THEN 'сегодня' 
+                                      WHEN CURRENT_DATE() < date1 or CURRENT_DATE() > date2
+                                          THEN ' '
+                                  END AS active,
+                                  CASE
+                                      WHEN date2 <> date1
+                                          THEN '-'
+                                      WHEN date2 = date1 
+                                          THEN '' 
+                                  END AS cherta
+                                  FROM EEvents;''')
         for x in result:
             print(x)
     except:
         print('error')
     return render_template('eventslist.html',result=result)
+
+# @app.route("/eventslist")
+# def eventslist():
+#     base = DBmanager(host, user, password, name)
+#     try:
+#         result = base.fetchall('''SELECT name from eEvents''')
+#         for x in result:
+#             print(x)
+#     except:
+#         print('error')
+#     return render_template('eventslist.html',result=result)
 
 
 # @app.route("/read_form", methods=['POST'])
