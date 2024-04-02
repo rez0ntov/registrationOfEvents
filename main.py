@@ -150,7 +150,7 @@ def eventslist():
                                       WHEN date2 = date1 
                                           THEN '' 
                                   END AS cherta
-                                  FROM EEvents;''')
+                                  FROM еEvents;''')
         for x in result:
             print(x)
     except:
