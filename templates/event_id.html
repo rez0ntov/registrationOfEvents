@@ -243,7 +243,7 @@
 <main id="main" class="main">
 
   <div class="create pagetitle">
-    <h1>Создать</h1>
+    <h1>Изменение меропрития №</h1>
     <nav>
       <ol class="breadcrumb">
         <p></p>
@@ -256,12 +256,12 @@
     <section class="section dashboard">
      <div class="row">
       <!-- General Form Elements -->
-      <form action="{{ url_for('read_createevent')}}" method="post" class=frfr>
+      <form action="{{ url_for('update_event')}}" method="post" class=frfr>
         <div class="row mb-3">
 
           <label for="inputText" class="col-sm-2 col-form-label">Название</label>
           <div class="col-sm-10">
-             <input name="eventName" type="text" class="form-control" id="eventname" value="{{result[0][0]}}" onchange="toggleButton()">
+             <input name="eventName" type="text" class="form-control" id="eventname" value="{{result[0][0]}}" onchange="toggleButton()" disabled>
           </div>
         </div>
 
@@ -279,7 +279,7 @@
           </div>
         </div>
 
-        <div class="row mb-3">
+        <!-- <div class="row mb-3">
           <label class="col-sm-2 col-form-label">Тип</label>
           <div class="col-sm-10">
             <select name="team" class="form-select" id="team" onchange="toggleButton()">
@@ -288,7 +288,7 @@
               <option value="Участники">Участники</option>
             </select>
           </div>
-        </div>
+        </div> -->
 
 
         <div class="row mb-3">
@@ -304,5 +304,6 @@
 </main>
 
 <script src="{{ url_for('static', filename='assets/js/buttonid.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/id.js')}}"></script>
 <!-- End #main -->
 {% endblock %}
