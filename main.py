@@ -125,6 +125,10 @@ def form():
 def createevent():
     return render_template('createevent.html')
 
+@app.route("/pages-register")
+def pages_register():
+    return render_template('register.html')
+
 
 
 @app.route("/eventslist")
@@ -150,9 +154,11 @@ def eventslist():
                                       WHEN date2 = date1 
                                           THEN '' 
                                   END AS cherta
-                                  FROM еEvents;''')
-        for x in result:
-            print(x)
+                                  FROM eEvents;
+                                  
+                                  order by date''')
+        print(result)
+
     except:
         print('error')
     return render_template('eventslist.html',result=result)
