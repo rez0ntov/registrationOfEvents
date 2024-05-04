@@ -107,9 +107,11 @@ def index():
                                           THEN '-'
                                       WHEN date2 = date1 
                                           THEN '' 
-                                  END AS cherta
-                                  FROM eEvents
-                                  WHERE CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2''')
+                                  END AS cherta,
+                                  id
+                                  FROM EEvents
+                                  WHERE CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2
+                                  order by date1 desc;''')
         for x in result:
             print(x)
     except:
@@ -155,7 +157,9 @@ def eventslist():
                                           THEN '' 
                                   END AS cherta,
                                   id
-                                  FROM EEvents;''')
+                                  FROM EEvents
+                                  order by date1 desc;
+                                  ''')
         for x in result:
             print(x)
     except:
@@ -296,6 +300,13 @@ def update_event():
     base.query('''UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s''', dictsend)
     return render_template('update_event.html')
 
+@app.route("/delete_event", methods=['POST'])
+def delete_event():
+    base = DBmanager(host,user,password,name)
+    data = request.form
+    id = data['id']
+    base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
+    return render_template('delete_event.html')
 
 # @app.route("/update_event", methods=['POST'])
 # def update_event():
