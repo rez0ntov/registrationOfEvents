@@ -107,9 +107,11 @@ def index():
                                           THEN '-'
                                       WHEN date2 = date1 
                                           THEN '' 
-                                  END AS cherta
+                                  END AS cherta,
+                                  id
                                   FROM EEvents
-                                  WHERE CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2''')
+                                  WHERE CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2
+                                  order by date1 desc;''')
         for x in result:
             print(x)
     except:
@@ -153,12 +155,13 @@ def eventslist():
                                           THEN '-'
                                       WHEN date2 = date1 
                                           THEN '' 
-                                  END AS cherta
-                                  FROM eEvents;
-                                  
-                                  order by date''')
-        print(result)
-
+                                  END AS cherta,
+                                  id
+                                  FROM EEvents
+                                  order by date1 desc;
+                                  ''')
+        for x in result:
+            print(x)
     except:
         print('error')
     return render_template('eventslist.html',result=result)
@@ -214,14 +217,14 @@ def read_createevent():
     date2 = data['date2']
     team = data['team']
     
-    result = base.fetchone('''SELECT name FROM eEvents WHERE name = %s''', (eventName,))
+    result = base.fetchone('''SELECT name FROM EEvents WHERE name = %s''', (eventName,))
     print(result)
     
     if result:
         return render_template('error.html')
     else:
         dictsend = (eventName, date1, date2, team)
-        base.query('''INSERT INTO eEvents(name, date1, date2, team) VALUES (%s, %s, %s, %s) ''', dictsend)
+        base.query('''INSERT INTO EEvents(name, date1, date2, team) VALUES (%s, %s, %s, %s) ''', dictsend)
         return render_template('createevent.html')
 
 
@@ -260,6 +263,17 @@ def error():
 #         return render_template('event_id.html', result=result)
 #     else:
 #         return "Page not found"
+ 
+
+# @app.route("/event<eventName>")
+# def event(eventName):
+#      base = DBmanager(host, user, password, name)
+#      try:
+#          result = base.fetchone('''SELECT team FROM eEvents WHERE name = %s''', (eventName))
+#          print(result)
+#      except:
+#         print('error')
+#      return render_template('event_id.html',result=result)
 
 
 @app.route("/event<id>")
@@ -272,17 +286,39 @@ def event(id):
         print('error')
      return render_template('event_id.html',result=result)
 
+
 @app.route("/update_event", methods=['POST'])
 def update_event():
     base = DBmanager(host,user,password,name)
-    data = request.get_json()
-    id = data['id']
+    data = request.form
     eventname = data['eventName']
     date1 = data['date1']
     date2 = data['date2']
-    base.query("UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s", (eventname, date1, date2, id))
+    team = data['team']
+    id = data['id']
+    dictsend = (eventname, date1, date2, team, id)
+    base.query('''UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s''', dictsend)
+    return render_template('update_event.html')
+
+@app.route("/delete_event", methods=['POST'])
+def delete_event():
+    base = DBmanager(host,user,password,name)
+    data = request.form
+    id = data['id']
+    base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
+    return render_template('delete_event.html')
+
+# @app.route("/update_event", methods=['POST'])
+# def update_event():
+#     base = DBmanager(host,user,password,name)
+#     data = request.get_json()
+#     id = data['id']
+#     eventname = data['eventName']
+#     date1 = data['date1']
+#     date2 = data['date2']
+#     base.query("UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s", (eventname, date1, date2, id))
     
-    return render_template('event_id.html',result=result)
+#     return render_template('event_id.html',result=result)
 
 
 
