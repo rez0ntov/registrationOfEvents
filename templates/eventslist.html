@@ -257,6 +257,9 @@
 
    
     <section class="section dashboard">
+
+      
+      
       <div class="row">
       
         <!-- Left side columns -->
@@ -265,6 +268,22 @@
 
             
             {% for i in result %}
+
+            <div class="pop_up" id="pop_up">
+              <div class="pop_up_container">
+                <div class="pop_up_body" >
+                  <p class="pop_up_body_p">Удалить мероприятие?</p>
+                  <div class="pop_up_button">
+                  <form action="{{ url_for('delete_event')}}" method="post">
+                    <input type="hidden" name="id" value="{{i[5]}}">
+                    <button  class="btn btn-primary">Удалить</button>
+                  </form>
+                    <button class="btn btn-primary pop_up_close" id="pop_up_close">Отменить</button>
+                  </div>
+                </div>
+              </div>
+            </div> 
+
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
 
@@ -275,8 +294,14 @@
                       <h6>Редактировать</h6>
                     </li>
 
-                    <li><a class="dropdown-item" href="/event{{i[5]}}">Изменить</a></li>
-                    <li><a class="dropdown-item" href="#">Удалить</a></li>
+                    <li>
+      
+                      <a class="dropdown-item" href="/event{{i[5]}}">Изменить</a>
+                      
+                    </li>
+                    <li> 
+                        <button id="open_pop_up" class="dropdown-item open_pop_up" href="#">Удалить</button>
+                    </li>
                     <li><a class="dropdown-item" href="#">Ссылка</a></li>
                 
                   </ul>
@@ -307,5 +332,6 @@
        </div>
     </section>
   </main>
+  <script src="{{ url_for('static', filename='assets/js/window.js')}}"></script>
 {% endblock %}
 
