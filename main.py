@@ -162,6 +162,11 @@ def eventslist():
                                   ''')
         for x in result:
             print(x)
+
+        data = request.form
+        id = data['id']
+        base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
+        
     except:
         print('error')
     return render_template('eventslist.html',result=result)

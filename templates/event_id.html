@@ -4,6 +4,7 @@
 {% endblock %}
 {% block body %}
 <!-- ======= Sidebar ======= -->
+<div class="window">
 <aside id="sidebar" class="sidebar">
 
   <ul class="sidebar-nav" id="sidebar-nav">
@@ -240,7 +241,26 @@
 
 </aside><!-- End Sidebar-->
 
+
+
+
+
 <main id="main" class="main">
+
+  <div class="pop_up" id="pop_up">
+    <div class="pop_up_container">
+      <div class="pop_up_body" >
+        <p class="pop_up_body_p">Удалить мероприятие?</p>
+        <div class="pop_up_button">
+        <form action="{{ url_for('delete_event')}}" method="post">
+          <input type="hidden" name="id" value="{{result[0][4]}}">
+          <button  class="btn btn-primary">Удалить</button>
+        </form>
+          <button class="btn btn-primary pop_up_close" id="pop_up_close">Отменить</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="create pagetitle">
     <h1>Изменить</h1>
@@ -253,7 +273,7 @@
   </div><!-- End Page Title -->
    
 
-    <section class="section dashboard">
+  <section class="section dashboard">
     <div class="row">
       <!-- General Form Elements -->
       <form action="{{ url_for('update_event')}}" method="post" class=frfr>
@@ -308,23 +328,31 @@
     </div>
       
     <div class="row">
-      <form action="{{ url_for('delete_event')}}" method="post" class=kkk>
+      
          <input type="hidden" name="id" value="{{result[0][4]}}">
 
-         <div class="row mb-3">
+        <div class="row mb-3">
            <label class="col-sm-2 col-form-label"></label>
            <div class="col-sm-10">
-             <button id="submitButton" type="submit" class="btn btn-primary">Удалить</button>
+           <button id="open_pop_up" type="submit" class="btn btn-primary"> 
+            Удалить
+           </button>
            </div>
-         </div>
-       </form>
+        </div>
+
+
+          
+
+        
+       
     </div>
       
       
      </div>
-    </section>
+  </section>
 </main>
-
+</div>
 <script src="{{ url_for('static', filename='assets/js/buttonid.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/window.js')}}"></script>
 <!-- End #main -->
 {% endblock %}
