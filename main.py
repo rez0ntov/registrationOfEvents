@@ -294,6 +294,8 @@ def event(id):
 
 @app.route("/update_event", methods=['POST'])
 def update_event():
+    if update_event:
+        return redirect(url_for('eventslist'))
     base = DBmanager(host,user,password,name)
     data = request.form
     eventname = data['eventName']
