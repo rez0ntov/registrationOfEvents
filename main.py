@@ -294,8 +294,6 @@ def event(id):
 
 @app.route("/update_event", methods=['POST'])
 def update_event():
-    if update_event:
-        return redirect(url_for('eventslist'))
     base = DBmanager(host,user,password,name)
     data = request.form
     eventname = data['eventName']
@@ -305,6 +303,7 @@ def update_event():
     id = data['id']
     dictsend = (eventname, date1, date2, team, id)
     base.query('''UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s''', dictsend)
+
     return render_template('update_event.html')
 
 @app.route("/delete_event", methods=['POST'])
