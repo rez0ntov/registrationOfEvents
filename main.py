@@ -294,16 +294,17 @@ def event(id):
 
 @app.route("/update_event", methods=['POST'])
 def update_event():
-    base = DBmanager(host,user,password,name)
-    data = request.form
-    eventname = data['eventName']
-    date1 = data['date1']
-    date2 = data['date2']
-    team = data['team']
-    id = data['id']
-    dictsend = (eventname, date1, date2, team, id)
-    base.query('''UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s''', dictsend)
-    try:
+        base = DBmanager(host,user,password,name)
+        data = request.form
+        id = data['id']
+        eventname = data['eventName']
+        date1 = data['date1']
+        date2 = data['date2']
+        team = data['team']
+        id = data['id']
+        dictsend = (eventname, date1, date2, team, id)
+        base.query('''UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s''', dictsend)
+        try:
             result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
                                       CASE
                                           WHEN date2 = date1 
@@ -330,13 +331,15 @@ def update_event():
             for x in result:
                 print(x)
 
-            data = request.form
-            id = data['id']
-            base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
         
-    except:
-        print('error')
-    return render_template('update_event.html',result=result)
+        except:
+         print('error')
+    
+        return render_template('delete_event.html',result=result)
+
+
+
+
 
 @app.route("/delete_event", methods=['POST'])
 def delete_event():
@@ -371,9 +374,6 @@ def delete_event():
             for x in result:
                 print(x)
 
-            data = request.form
-            id = data['id']
-            base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
         
         except:
          print('error')
