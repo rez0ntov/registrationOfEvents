@@ -303,16 +303,82 @@ def update_event():
     id = data['id']
     dictsend = (eventname, date1, date2, team, id)
     base.query('''UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s''', dictsend)
+    try:
+            result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
+                                      CASE
+                                          WHEN date2 = date1 
+                                              THEN ' ' 
+                                          WHEN date2 <> date1 
+                                              THEN DATE_FORMAT(date2, '%d.%m')
+                                      END AS date2,
+                                      CASE
+                                          WHEN CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2
+                                              THEN 'сегодня' 
+                                          WHEN CURRENT_DATE() < date1 or CURRENT_DATE() > date2
+                                              THEN ' '
+                                      END AS active,
+                                      CASE
+                                          WHEN date2 <> date1
+                                              THEN '-'
+                                          WHEN date2 = date1 
+                                              THEN '' 
+                                      END AS cherta,
+                                      id
+                                      FROM EEvents
+                                      order by date1 desc;
+                                      ''')
+            for x in result:
+                print(x)
 
-    return render_template('update_event.html')
+            data = request.form
+            id = data['id']
+            base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
+        
+    except:
+        print('error')
+    return render_template('update_event.html',result=result)
 
 @app.route("/delete_event", methods=['POST'])
 def delete_event():
-    base = DBmanager(host,user,password,name)
-    data = request.form
-    id = data['id']
-    base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
-    return render_template('delete_event.html')
+        base = DBmanager(host,user,password,name)
+        data = request.form
+        id = data['id']
+        base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
+        try:
+            result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
+                                      CASE
+                                          WHEN date2 = date1 
+                                              THEN ' ' 
+                                          WHEN date2 <> date1 
+                                              THEN DATE_FORMAT(date2, '%d.%m')
+                                      END AS date2,
+                                      CASE
+                                          WHEN CURRENT_DATE() >= date1 and CURRENT_DATE() <= date2
+                                              THEN 'сегодня' 
+                                          WHEN CURRENT_DATE() < date1 or CURRENT_DATE() > date2
+                                              THEN ' '
+                                      END AS active,
+                                      CASE
+                                          WHEN date2 <> date1
+                                              THEN '-'
+                                          WHEN date2 = date1 
+                                              THEN '' 
+                                      END AS cherta,
+                                      id
+                                      FROM EEvents
+                                      order by date1 desc;
+                                      ''')
+            for x in result:
+                print(x)
+
+            data = request.form
+            id = data['id']
+            base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
+        
+        except:
+         print('error')
+    
+        return render_template('delete_event.html',result=result)
 
 # @app.route("/update_event", methods=['POST'])
 # def update_event():
