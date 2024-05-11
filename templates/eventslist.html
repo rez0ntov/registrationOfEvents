@@ -302,10 +302,13 @@
                     <li> 
                         <button id="open_pop_up" class="dropdown-item open_pop_up" href="#">Удалить</button>
                     </li>
-                    <li><a class="dropdown-item" href="#">Ссылка</a></li>
+                    <li>
+                      <button id="link" class="dropdown-item link" href="#" data-link="http://127.0.0.1:5000/eventregister{{i[5]}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Скопировать">Скопировать ссылку</button>
+                    </li>
                 
                   </ul>
                 </div>
+
 
                 <div class="card-body">
                   <h5 class="card-title"> <span></span></h5>
@@ -333,5 +336,6 @@
     </section>
   </main>
   <script src="{{ url_for('static', filename='assets/js/window.js')}}"></script>
+  <script src="{{ url_for('static', filename='assets/js/link.js')}}"></script>
 {% endblock %}
 

@@ -292,6 +292,40 @@ def event(id):
      return render_template('event_id.html',result=result)
 
 
+@app.route("/eventregister<id>")
+def eventregister(id):
+    base = DBmanager(host, user, password, name)
+    try:
+        result = base.fetchall(f"SELECT name, id, team FROM EEvents WHERE id = {id}")
+        print(result)
+        
+        if result and result[0][2] == 'Команды':
+            return render_template('team.html', result=result)
+    
+        elif result and result[0][2] == 'Участники':
+            return render_template('participants.html', result=result)
+        else:
+            return "Не удалось определить тип команды"
+     
+    except:
+        print('error')
+        return "Произошла ошибка"
+
+@app.route("/read_participants", methods=['POST'])
+def read_participants():
+    base = DBmanager(host, user, password, name)
+    data = request.form
+    eventname = data['eventname']
+    base.query(f'CREATE TABLE IF NOT EXISTS table_{eventname} (pname text, name2 text, name3 text, email4 text)')
+    pname = data['pname']
+    name2 = data['name2']
+    name3 = data['name3']
+    email4 = data['email4']
+    dictsend = (pname, name2, name3, email4)
+    base.query(f"INSERT INTO table_{eventname} (pname, name2, name3, email4) VALUES (%s, %s, %s, %s)", dictsend)
+    return render_template('read_participants.html')
+
+
 @app.route("/update_event", methods=['POST'])
 def update_event():
         base = DBmanager(host,user,password,name)
