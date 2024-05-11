@@ -325,6 +325,21 @@ def read_participants():
     base.query(f"INSERT INTO table_{eventname} (pname, name2, name3, email4) VALUES (%s, %s, %s, %s)", dictsend)
     return render_template('read_participants.html')
 
+@app.route("/read_team", methods=['POST'])
+def read_team():
+    base = DBmanager(host, user, password, name)
+    data = request.form
+    eventname = data['eventname']
+    base.query(f'CREATE TABLE IF NOT EXISTS table_{eventname} (tname text, pname text, name2 text, name3 text, email4 text)')
+    tname = data['tname']
+    pname = data['pname']
+    name2 = data['name2']
+    name3 = data['name3']
+    email4 = data['email4']
+    dictsend = (tname, pname, name2, name3, email4)
+    base.query(f"INSERT INTO table_{eventname} (tname, pname, name2, name3, email4) VALUES (%s, %s, %s, %s, %s)", dictsend)
+    return render_template('read_participants.html')
+
 
 @app.route("/update_event", methods=['POST'])
 def update_event():
