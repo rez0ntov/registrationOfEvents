@@ -337,7 +337,7 @@ def table(id):
         return "Никто не зарегестрировался"
 
 
-@app.route("/teamlis<id><tname>")
+@app.route("/teamlist<id><tname>")
 def teamlist(tname, id):
         base = DBmanager(host, user, password, name)
         result = base.fetchall(f"SELECT pname, name2, name3, email4 FROM table_{id} WHERE tname = {tname}")
