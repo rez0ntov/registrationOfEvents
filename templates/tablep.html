@@ -1,9 +1,8 @@
 {% extends 'inner.html' %}
 {% block title %}
-Список мероприятий
+
 {% endblock %}
 {% block body %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
@@ -189,7 +188,7 @@
       <!-- <li class="nav-heading">Pages</li> -->
 
       <li class="nav-item">
-        <a class="nav-link" href="eventslist">
+        <a class="nav-link collapsed" href="eventslist">
           <i class="bi bi-person"></i>
           <span>Все мероприятия</span>
         </a>
@@ -241,106 +240,48 @@
 
   </aside><!-- End Sidebar-->
 
-  <main id="main" class="main">
+
+<main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Все мероприятия</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <p></p>
-          <p></p>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
-
-    
-
-   
-    <section class="section dashboard">
-
+        <h1>Список участников</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <p></p>
+            <p></p>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
       
+  <section class="section">
+    <div class="row">
       
-      <div class="row">
-      
-        <!-- Left side columns -->
-        
-          <div class="row">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
 
-            
-            {% for i in result %}
+              <!-- Table with hoverable rows -->
+              <table class="table table-hover">
+                <tbody>
+                {% for i in result %}
+                  <tr>
+                    <th scope="row">{{i[0]}}</th>
+                    <td>{{i[0]}}</td>
+                    <td>{{i[1]}}</td>
+                    <td>{{i[2]}}</td>
+                    <td>{{i[3]}}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              <!-- End Table with hoverable rows -->
 
-            <div class="pop_up" id="pop_up">
-              <div class="pop_up_container">
-                <div class="pop_up_body" >
-                  <p class="pop_up_body_p">Удалить мероприятие?</p>
-                  <div class="pop_up_button">
-                  <form action="{{ url_for('delete_event')}}" method="post">
-                    <input type="hidden" name="id" value="{{i[5]}}">
-                    <button  class="btn btn-primary">Удалить</button>
-                  </form>
-                    <button class="btn btn-primary pop_up_close" id="pop_up_close">Отменить</button>
-                  </div>
-                </div>
-              </div>
-            </div> 
-
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Редактировать</h6>
-                    </li>
-
-                    <li>
-      
-                      <a class="dropdown-item" href="/event{{i[5]}}">Изменить</a>
-                      
-                    </li>
-                    <li> 
-                        <button id="open_pop_up" class="dropdown-item open_pop_up" href="#">Удалить</button>
-                    </li>
-                    
-                    <li>
-                      <button id="link" class="dropdown-item link" href="#" data-link="http://127.0.0.1:5000/eventregister{{i[5]}}">Скопировать ссылку</button>
-                    </li>
-
-                    <li>
-                      <a class="dropdown-item" href="/table{{i[5]}}">Список участников</a>
-                    </li>
-                
-                  </ul>
-                </div>
-
-
-                <div class="card-body">
-                  <h5 class="card-title"> <span></span></h5>
-
-                  <div class="d-flex align-items-center">
-                   
-                    <div class="ps-3"card-title>
-                      <p><h6>{{ i[0] }}</h6></p>
-                      <p><span class="textdate small pt-1 fw-bold ">{{ i[1] }} {{ i[4] }} {{ i[2] }} </span> <span class="texttoday small pt-1 fw-bold ">{{ i[3] }} </span></p> 
-                    </div>
-                  </div>
-                </div>
-
-
-              </div>
             </div>
-            {% endfor %}
-            
-
-
-
-          
+        </div>
       
-       </div>
-    </section>
-  </main>
-  <script src="{{ url_for('static', filename='assets/js/window.js')}}"></script>
-  <script src="{{ url_for('static', filename='assets/js/link.js')}}"></script>
-{% endblock %}
+    </div>
+</section>
 
+</main>
+
+{% endblock %}

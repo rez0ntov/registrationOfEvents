@@ -310,34 +310,68 @@ def eventregister(id):
     except:
         print('error')
         return "Произошла ошибка"
+    
+@app.route("/table<id>")
+def table(id):
+    base = DBmanager(host, user, password, name)
+    try:
+        print(id)
+        result = base.fetchall(f"SELECT name, id, team FROM EEvents WHERE id = {id}")
+        print(result)
+
+        if result and result[0][2] == 'Команды':
+            result = base.fetchall(f"SELECT DISTINCT tname from table_{id}")
+            return render_template('tablet.html', result=result, id=id)
+        
+        elif result and result[0][2] == 'Участники':
+            result = base.fetchall(f"SELECT id, pname, name2, name3, email4 FROM table_{id}")
+            for x in result:
+                print(x)
+            return render_template('tablep.html', result=result)
+        
+        else:
+            return "Не удалось определить тип команды"
+     
+    except:
+        print('error')
+        return "Никто не зарегестрировался"
+
+
+@app.route("/teamlis<id><tname>")
+def teamlist(tname, id):
+        base = DBmanager(host, user, password, name)
+        result = base.fetchall(f"SELECT pname, name2, name3, email4 FROM table_{id} WHERE tname = {tname}")
+        for x in result:
+            print(x)
+        return render_template('teamlist.html', result=result)
 
 @app.route("/read_participants", methods=['POST'])
 def read_participants():
     base = DBmanager(host, user, password, name)
     data = request.form
-    eventname = data['eventname']
-    base.query(f'CREATE TABLE IF NOT EXISTS table_{eventname} (pname text, name2 text, name3 text, email4 text)')
+    id = data['id']
+    base.query(f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, pname text, name2 text, name3 text, email4 text)')
     pname = data['pname']
     name2 = data['name2']
     name3 = data['name3']
     email4 = data['email4']
     dictsend = (pname, name2, name3, email4)
-    base.query(f"INSERT INTO table_{eventname} (pname, name2, name3, email4) VALUES (%s, %s, %s, %s)", dictsend)
+    base.query(f"INSERT INTO table_{id} (pname, name2, name3, email4) VALUES (%s, %s, %s, %s)", dictsend)
     return render_template('read_participants.html')
 
 @app.route("/read_team", methods=['POST'])
 def read_team():
     base = DBmanager(host, user, password, name)
     data = request.form
-    eventname = data['eventname']
-    base.query(f'CREATE TABLE IF NOT EXISTS table_{eventname} (tname text, pname text, name2 text, name3 text, email4 text)')
+    id = data['id']
+    base.query(f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, tname text, pname text, name2 text, name3 text, email4 text)')
     tname = data['tname']
     pname = data['pname']
     name2 = data['name2']
     name3 = data['name3']
     email4 = data['email4']
     dictsend = (tname, pname, name2, name3, email4)
-    base.query(f"INSERT INTO table_{eventname} (tname, pname, name2, name3, email4) VALUES (%s, %s, %s, %s, %s)", dictsend)
+    base.query(f"INSERT INTO table_{id} (tname, pname, name2, name3, email4) VALUES (%s, %s, %s, %s, %s)", dictsend)
     return render_template('read_participants.html')
 
 
