@@ -344,13 +344,25 @@ def table(id):
         return "Никто не зарегестрировался"
 
 
-@app.route("/teamlist<id><tname>")
-def teamlist(tname, id):
+@app.route("/teamlist/<int:id>/<tname>")
+def teamlist(id, tname):
     base = DBmanager(host, user, password, name)
-    result = base.fetchall(f"SELECT pname, name2, name3, email4 FROM table_{id} WHERE tname = {tname}")
-    for x in result:
-        print(x)
-    return render_template('teamlist.html', result=result)
+    try:
+        print(tname)
+        result = base.fetchall("SELECT pname, name2, name3, email4 FROM table_%s WHERE tname = %s", (id, tname))
+        print(f"Result: {result}")  # Debugging statement
+
+        if not result:
+            return "No teams found with the specified name."
+        
+        for x in result:
+            print(x)
+        
+        return render_template('teamlist.html', result=result, tname=tname)
+
+    except Exception as e:
+        print(f'Error: {e}')
+        return "An error occurred while processing your request."
 
 
 @app.route("/read_participants", methods=['POST'])
