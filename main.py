@@ -5,7 +5,6 @@ from UserLogin import UserLogin
 from config import *
 from flask import Flask, render_template, request, redirect, url_for, flash
 
-
 SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
 app = Flask(__name__)
 login_manager = LoginManager(app)
@@ -48,7 +47,7 @@ def log():
     return render_template('login.html')
 
 
-@app.route("/register", methods=["POST","GET"])
+@app.route("/register", methods=["POST", "GET"])
 def register():
     dbase = DBmanager(host="mysql94.1gb.ru", user="gb_regkv", passwd="KHKFrmM-85pK", name="gb_regkv")
     print(request.form['psw'])
@@ -72,7 +71,12 @@ def logout():
 
 
 @app.route("/")
-@app.route("/login", methods=["POST","GET"])
+def aut():
+    print('aut')
+    return render_template("login.html")
+
+
+@app.route("/login", methods=["POST"])
 def login():
     dbase = DBmanager(host="mysql94.1gb.ru", user="gb_regkv", passwd="KHKFrmM-85pK", name="gb_regkv")
     if current_user.is_authenticated:
@@ -84,7 +88,7 @@ def login():
             userlogin = UserLogin().create(user)
             rm = True if request.form.get('remainme') else False
             login_user(userlogin, remember=rm)
-            return redirect( url_for("login"))
+            return redirect(url_for("index"))
 
         flash("Неверная пара логин/пароль", "error")
 
@@ -123,14 +127,15 @@ def index():
 def form():
     return render_template('form.html')
 
+
 @app.route("/createevent")
 def createevent():
     return render_template('createevent.html')
 
+
 @app.route("/pages-register")
 def pages_register():
     return render_template('register.html')
-
 
 
 @app.route("/eventslist")
@@ -166,10 +171,11 @@ def eventslist():
         data = request.form
         id = data['id']
         base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
-        
+
     except:
         print('error')
-    return render_template('eventslist.html',result=result)
+    return render_template('eventslist.html', result=result)
+
 
 # @app.route("/eventslist")
 # def eventslist():
@@ -198,8 +204,8 @@ def eventslist():
 # @app.route("/read_createevent", methods=['POST'])
 # def read_createevent():
 #     base = DBmanager(host,user,password,name)
-#     result = base.query('''SELECT * FROM eevents WHERE name = eventname''') 
-    
+#     result = base.query('''SELECT * FROM eevents WHERE name = eventname''')
+
 #     if result:
 #         return render_template('error.html')
 #     else:
@@ -221,10 +227,10 @@ def read_createevent():
     date1 = data['date1']
     date2 = data['date2']
     team = data['team']
-    
+
     result = base.fetchone('''SELECT name FROM EEvents WHERE name = %s''', (eventName,))
     print(result)
-    
+
     if result:
         return render_template('error.html')
     else:
@@ -233,12 +239,11 @@ def read_createevent():
         return render_template('createevent.html')
 
 
-
 # @app.route("/read_createevent", methods=['POST'])
 # def read_createevent():
 #     base = DBmanager(host,user,password,name)
 #     base.query('''CREATE TABLE IF NOT EXISTS eEvents(name, date1 date, date2 date, team text)''')
-    
+
 #     data = request.form
 #     eventname = data['eventName']
 #     date1 = data['date1']
@@ -246,7 +251,7 @@ def read_createevent():
 #     team = data['team']
 
 #     result = base.query('''SELECT * FROM eEvents WHERE name = %s''', (eventname,))
-    
+
 #     if result:
 #         return render_template('error.html')
 #     else:
@@ -259,6 +264,7 @@ def read_createevent():
 def error():
     return render_template('error.html')
 
+
 # @app.route('/<id>')
 # def show_page(id):
 #     base = DBmanager(host,user,password,name)
@@ -268,7 +274,7 @@ def error():
 #         return render_template('event_id.html', result=result)
 #     else:
 #         return "Page not found"
- 
+
 
 # @app.route("/event<eventName>")
 # def event(eventName):
@@ -283,13 +289,13 @@ def error():
 
 @app.route("/event<id>")
 def event(id):
-     base = DBmanager(host, user, password, name)
-     try:
-         result = base.fetchall(f"SELECT name, date1, date2, team, id FROM EEvents WHERE id = {id}")
-         print(result)
-     except:
+    base = DBmanager(host, user, password, name)
+    try:
+        result = base.fetchall(f"SELECT name, date1, date2, team, id FROM EEvents WHERE id = {id}")
+        print(result)
+    except:
         print('error')
-     return render_template('event_id.html',result=result)
+    return render_template('event_id.html', result=result)
 
 
 @app.route("/eventregister<id>")
@@ -298,19 +304,20 @@ def eventregister(id):
     try:
         result = base.fetchall(f"SELECT name, id, team FROM EEvents WHERE id = {id}")
         print(result)
-        
+
         if result and result[0][2] == 'Команды':
             return render_template('team.html', result=result)
-    
+
         elif result and result[0][2] == 'Участники':
             return render_template('participants.html', result=result)
         else:
             return "Не удалось определить тип команды"
-     
+
     except:
         print('error')
         return "Произошла ошибка"
-    
+
+
 @app.route("/table<id>")
 def table(id):
     base = DBmanager(host, user, password, name)
@@ -322,16 +329,16 @@ def table(id):
         if result and result[0][2] == 'Команды':
             result = base.fetchall(f"SELECT DISTINCT tname from table_{id}")
             return render_template('tablet.html', result=result, id=id)
-        
+
         elif result and result[0][2] == 'Участники':
             result = base.fetchall(f"SELECT id, pname, name2, name3, email4 FROM table_{id}")
             for x in result:
                 print(x)
             return render_template('tablep.html', result=result)
-        
+
         else:
             return "Не удалось определить тип команды"
-     
+
     except:
         print('error')
         return "Никто не зарегестрировался"
@@ -339,18 +346,20 @@ def table(id):
 
 @app.route("/teamlist<id><tname>")
 def teamlist(tname, id):
-        base = DBmanager(host, user, password, name)
-        result = base.fetchall(f"SELECT pname, name2, name3, email4 FROM table_{id} WHERE tname = {tname}")
-        for x in result:
-            print(x)
-        return render_template('teamlist.html', result=result)
+    base = DBmanager(host, user, password, name)
+    result = base.fetchall(f"SELECT pname, name2, name3, email4 FROM table_{id} WHERE tname = {tname}")
+    for x in result:
+        print(x)
+    return render_template('teamlist.html', result=result)
+
 
 @app.route("/read_participants", methods=['POST'])
 def read_participants():
     base = DBmanager(host, user, password, name)
     data = request.form
     id = data['id']
-    base.query(f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, pname text, name2 text, name3 text, email4 text)')
+    base.query(
+        f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, pname text, name2 text, name3 text, email4 text)')
     pname = data['pname']
     name2 = data['name2']
     name3 = data['name3']
@@ -359,12 +368,14 @@ def read_participants():
     base.query(f"INSERT INTO table_{id} (pname, name2, name3, email4) VALUES (%s, %s, %s, %s)", dictsend)
     return render_template('read_participants.html')
 
+
 @app.route("/read_team", methods=['POST'])
 def read_team():
     base = DBmanager(host, user, password, name)
     data = request.form
     id = data['id']
-    base.query(f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, tname text, pname text, name2 text, name3 text, email4 text)')
+    base.query(
+        f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, tname text, pname text, name2 text, name3 text, email4 text)')
     tname = data['tname']
     pname = data['pname']
     name2 = data['name2']
@@ -377,18 +388,18 @@ def read_team():
 
 @app.route("/update_event", methods=['POST'])
 def update_event():
-        base = DBmanager(host,user,password,name)
-        data = request.form
-        id = data['id']
-        eventname = data['eventName']
-        date1 = data['date1']
-        date2 = data['date2']
-        team = data['team']
-        id = data['id']
-        dictsend = (eventname, date1, date2, team, id)
-        base.query('''UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s''', dictsend)
-        try:
-            result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
+    base = DBmanager(host, user, password, name)
+    data = request.form
+    id = data['id']
+    eventname = data['eventName']
+    date1 = data['date1']
+    date2 = data['date2']
+    team = data['team']
+    id = data['id']
+    dictsend = (eventname, date1, date2, team, id)
+    base.query('''UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s''', dictsend)
+    try:
+        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
                                       CASE
                                           WHEN date2 = date1 
                                               THEN ' ' 
@@ -411,27 +422,24 @@ def update_event():
                                       FROM EEvents
                                       order by date1 desc;
                                       ''')
-            for x in result:
-                print(x)
-
-        
-        except:
-         print('error')
-    
-        return render_template('delete_event.html',result=result)
+        for x in result:
+            print(x)
 
 
+    except:
+        print('error')
 
+    return render_template('delete_event.html', result=result)
 
 
 @app.route("/delete_event", methods=['POST'])
 def delete_event():
-        base = DBmanager(host,user,password,name)
-        data = request.form
-        id = data['id']
-        base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
-        try:
-            result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
+    base = DBmanager(host, user, password, name)
+    data = request.form
+    id = data['id']
+    base.query('''DELETE FROM EEvents WHERE id = %s''', (id,))
+    try:
+        result = base.fetchall('''SELECT name, DATE_FORMAT(date1, '%d.%m'),    
                                       CASE
                                           WHEN date2 = date1 
                                               THEN ' ' 
@@ -454,14 +462,15 @@ def delete_event():
                                       FROM EEvents
                                       order by date1 desc;
                                       ''')
-            for x in result:
-                print(x)
+        for x in result:
+            print(x)
 
-        
-        except:
-         print('error')
-    
-        return render_template('delete_event.html',result=result)
+
+    except:
+        print('error')
+
+    return render_template('delete_event.html', result=result)
+
 
 # @app.route("/update_event", methods=['POST'])
 # def update_event():
@@ -472,13 +481,9 @@ def delete_event():
 #     date1 = data['date1']
 #     date2 = data['date2']
 #     base.query("UPDATE EEvents SET name = %s, date1 = %s, date2 = %s, team = %s WHERE id = %s", (eventname, date1, date2, id))
-    
+
 #     return render_template('event_id.html',result=result)
-
-
-
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
