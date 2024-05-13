@@ -188,7 +188,7 @@
       <!-- <li class="nav-heading">Pages</li> -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="eventslist">
+        <a class="nav-link" href="eventslist">
           <i class="bi bi-person"></i>
           <span>Все мероприятия</span>
         </a>
@@ -244,7 +244,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Список участников</h1>
+        <h1>Список участников {{tname}}</h1>
         <nav>
           <ol class="breadcrumb">
             <p></p>
@@ -265,7 +265,7 @@
                 <tbody>
                 {% for i in result %}
                   <tr>
-                    <th scope="row">  </th>
+                    <th scope="row">{{ loop.index }}</th>
                     <td>{{i[0]}}</td>
                     <td>{{i[1]}}</td>
                     <td>{{i[2]}}</td>

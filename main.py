@@ -3,7 +3,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from dbmodel import DBmanager
 from UserLogin import UserLogin
 from config import *
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file
+import qrcode
+from io import BytesIO
 
 SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
 app = Flask(__name__)
@@ -344,13 +346,66 @@ def table(id):
         return "Никто не зарегестрировался"
 
 
-@app.route("/teamlist<id><tname>")
-def teamlist(tname, id):
+@app.route("/teamlist/<int:id>/<tname>")
+def teamlist(id, tname):
     base = DBmanager(host, user, password, name)
-    result = base.fetchall(f"SELECT pname, name2, name3, email4 FROM table_{id} WHERE tname = {tname}")
-    for x in result:
-        print(x)
-    return render_template('teamlist.html', result=result)
+    try:
+        print(tname)
+        result = base.fetchall("SELECT pname, name2, name3, email4 FROM table_%s WHERE tname = %s", (id, tname))
+        print(f"Result: {result}")  
+
+        if not result:
+            return "No teams found with the specified name."
+        
+        for x in result:
+            print(x)
+        
+        return render_template('teamlist.html', result=result, tname=tname)
+
+    except Exception as e:
+        print(f'Error: {e}')
+        return "An error occurred while processing your request."
+
+@app.route('/generate_qr/<page_id>')
+def generate_qr(page_id):
+    
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(f'https://127.0.0.1:5000/active{page_id}')
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    
+    img_byte_array = BytesIO()
+    img.save(img_byte_array)
+    img_byte_array.seek(0)
+
+  
+    return send_file(img_byte_array, mimetype='image/png')
+
+
+@app.route("/active<page_id>")
+def active(page_id):
+    print(page_id)
+    return render_template('active.html', page_id=page_id)
+
+
+@app.route("/read_active", methods=['POST'])
+def read_active():
+    base = DBmanager(host, user, password, name)
+    data = request.form
+    page_id = data['page_id']
+    pname = data['pname']
+    name2 = data['name2']
+    name3 = data['name3']
+    dictsend = (pname, name2, name3)
+    base.query(f"UPDATE table_{page_id} SET active = True WHERE pname = %s AND name2 = %s AND name3 = %s", dictsend)
+    return render_template('active.html')
 
 
 @app.route("/read_participants", methods=['POST'])
@@ -359,7 +414,7 @@ def read_participants():
     data = request.form
     id = data['id']
     base.query(
-        f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, pname text, name2 text, name3 text, email4 text)')
+        f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, pname text, name2 text, name3 text, email4 text, active boolean DEFAULT False)')
     pname = data['pname']
     name2 = data['name2']
     name3 = data['name3']
