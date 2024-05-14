@@ -195,11 +195,11 @@
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" href="table{{id}}">
+        <a class="nav-link" href="/monitoring{{id}}">
           <i class="ri-arrow-right-s-fill"></i>
-          <span>Команды</span>
+          <span>Мониторинг</span>
         </a>
-      </li><!-- End Profile Page Nav -->
+      </li><!-- End F.A.Q Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="/createevent">
@@ -208,8 +208,9 @@
         </a>
       </li><!-- End F.A.Q Page Nav -->
 
-     
       
+      
+
     </ul>
 
   </aside><!-- End Sidebar-->
@@ -218,7 +219,7 @@
 <main id="main" class="main">
 
     <div class="create pagetitle">
-        <h1>Команды</h1>
+        <h1>Мониторинг</h1>
         <nav>
           <ol class="breadcrumb">
             <p></p>
@@ -239,14 +240,11 @@
                 <tbody>
                 {% for i in result %}
                   <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{i[0]}}</td>
+                    <td>{{i[1]}}</td>
+                    <td>{{i[2]}}</td>
                     
-                    <th scope="row">
-                        <a class="dropdown-item" href="/teamlist/{{id}}/{{i[0]}}">{{i[0]}}</a>
-                    </th>
-                    
-                    <!-- <td>{{i[2]}}</td>
-                    <td>{{i[3]}}</td>
-                    <td>{{i[4]}}</td> -->
                   </tr>
                 {% endfor %}
                 </tbody>

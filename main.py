@@ -293,11 +293,12 @@ def error():
 def event(id):
     base = DBmanager(host, user, password, name)
     try:
+        print(id)
         result = base.fetchall(f"SELECT name, date1, date2, team, id FROM EEvents WHERE id = {id}")
         print(result)
     except:
         print('error')
-    return render_template('event_id.html', result=result)
+    return render_template('event_id.html', result=result, id=id)
 
 
 @app.route("/eventregister<id>")
@@ -336,7 +337,7 @@ def table(id):
             result = base.fetchall(f"SELECT id, pname, name2, name3, email4 FROM table_{id}")
             for x in result:
                 print(x)
-            return render_template('tablep.html', result=result)
+            return render_template('tablep.html', result=result, id=id)
 
         else:
             return "Не удалось определить тип команды"
@@ -345,14 +346,29 @@ def table(id):
         print('error')
         return "Никто не зарегестрировался"
 
+@app.route("/monitoring/<id>")
+def monitoring(id):
+    base = DBmanager(host, user, password, name)
+    try:
+        print(id)
+        result = base.fetchall("SELECT pname, name2, name3 FROM table_%s WHERE active = True", (id))
+        for x in result:
+            print(x)
+    except Exception as e:
+        print('error:', e)
+        result = []  
+    return render_template('monitoring.html', result=result, id=id)
+
 
 @app.route("/teamlist/<int:id>/<tname>")
 def teamlist(id, tname):
     base = DBmanager(host, user, password, name)
     try:
         print(tname)
+        print(id)
         result = base.fetchall("SELECT pname, name2, name3, email4 FROM table_%s WHERE tname = %s", (id, tname))
         print(f"Result: {result}")  
+
 
         if not result:
             return "No teams found with the specified name."
@@ -360,7 +376,7 @@ def teamlist(id, tname):
         for x in result:
             print(x)
         
-        return render_template('teamlist.html', result=result, tname=tname)
+        return render_template('teamlist.html', result=result, tname=tname, id=id)
 
     except Exception as e:
         print(f'Error: {e}')
