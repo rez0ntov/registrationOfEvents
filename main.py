@@ -334,7 +334,7 @@ def table(id):
             return render_template('tablet.html', result=result, id=id)
 
         elif result and result[0][2] == 'Участники':
-            result = base.fetchall(f"SELECT id, pname, name2, name3, email4 FROM table_{id}")
+            result = base.fetchall(f"SELECT pname, name2, name3, email4 FROM table_{id}")
             for x in result:
                 print(x)
             return render_template('tablep.html', result=result, id=id)
@@ -381,7 +381,7 @@ def teamlist(id, tname):
     try:
         print(tname)
         print(id)
-        result = base.fetchall("SELECT pid, pname, name2, name3, email4 FROM table_%s WHERE tname = %s", (id, tname))
+        result = base.fetchall("SELECT id, pname, name2, name3, email4 FROM table_%s WHERE tname = %s", (id, tname))
         print(f"Result: {result}")  
 
 
@@ -445,7 +445,7 @@ def read_participants():
     data = request.form
     id = data['id']
     base.query(
-        f'CREATE TABLE IF NOT EXISTS table_{id} (pid int AUTO_INCREMENT PRIMARY KEY, pname text, name2 text, name3 text, email4 text, active boolean DEFAULT False)')
+        f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, pname text, name2 text, name3 text, email4 text, active boolean DEFAULT False)')
     pname = data['pname']
     name2 = data['name2']
     name3 = data['name3']
@@ -461,7 +461,7 @@ def read_team():
     data = request.form
     id = data['id']
     base.query(
-        f'CREATE TABLE IF NOT EXISTS table_{id} (pid int AUTO_INCREMENT PRIMARY KEY, tname text, pname text, name2 text, name3 text, email4 text)')
+        f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, tname text, pname text, name2 text, name3 text, email4 text)')
     tname = data['tname']
     pname = data['pname']
     name2 = data['name2']
