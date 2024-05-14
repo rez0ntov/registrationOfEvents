@@ -10,8 +10,8 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index">
-          <i class="bi bi-grid"></i>
+        <a class="nav-link collapsed" href="/index">
+          <i class="ri-arrow-right-s-fill"></i>
           <span>Активные мероприятия</span>
         </a>
       </li><!-- End Dashboard Nav -->
@@ -189,53 +189,20 @@
       <!-- <li class="nav-heading">Pages</li> -->
 
       <li class="nav-item">
-        <a class="nav-link" href="eventslist">
-          <i class="bi bi-person"></i>
+        <a class="nav-link" href="/eventslist">
+          <i class="ri-arrow-right-s-fill"></i>
           <span>Все мероприятия</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="createevent">
-          <i class="bi bi-question-circle"></i>
+        <a class="nav-link collapsed" href="/createevent">
+          <i class="ri-arrow-right-s-fill"></i>
           <span>Создать</span>
         </a>
       </li><!-- End F.A.Q Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
-          <i class="bi bi-envelope"></i>
-          <span>Contact</span>
-        </a>
-      </li><!-- End Contact Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-register.html">
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </a>
-      </li><!-- End Register Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </a>
-      </li><!-- End Login Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-error-404.html">
-          <i class="bi bi-dash-circle"></i>
-          <span>Error 404</span>
-        </a>
-      </li><!-- End Error 404 Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-blank.html">
-          <i class="bi bi-file-earmark"></i>
-          <span>Blank</span>
-        </a>
-      </li><!-- End Blank Page Nav -->
 
     </ul>
 
@@ -290,10 +257,6 @@
                 <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Редактировать</h6>
-                    </li>
-
                     <li>
       
                       <a class="dropdown-item" href="/event{{i[5]}}">Изменить</a>
@@ -302,10 +265,25 @@
                     <li> 
                         <button id="open_pop_up" class="dropdown-item open_pop_up" href="#">Удалить</button>
                     </li>
-                    <li><a class="dropdown-item" href="#">Ссылка</a></li>
+                    
+                    <li>
+                      <button id="link" class="dropdown-item link" href="#" data-link="http://127.0.0.1:5000/eventregister{{i[5]}}">Скопировать ссылку</button>
+                    </li>
+
+                    <li>
+                      <a class="dropdown-item" href="/table{{i[5]}}">Список участников</a>
+                    </li>
+
+                    <li>
+                      <a class="dropdown-item" target="_blank" href="generate_qr/{{i[5]}}">QR</a>
+                    </li>
                 
+                    <li>
+                      <a class="dropdown-item" target="_blank" href="/monitoring/{{i[5]}}">Мониторинг</a>
+                    </li>
                   </ul>
                 </div>
+
 
                 <div class="card-body">
                   <h5 class="card-title"> <span></span></h5>
@@ -333,5 +311,6 @@
     </section>
   </main>
   <script src="{{ url_for('static', filename='assets/js/window.js')}}"></script>
+  <script src="{{ url_for('static', filename='assets/js/link.js')}}"></script>
 {% endblock %}
 

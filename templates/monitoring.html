@@ -233,12 +233,39 @@
       
         <div class="card">
             <div class="card-body">
-              <h5 class="card-title"></h5>
+              <h5 class="card-title">Присутствуют</h5>
 
               <!-- Table with hoverable rows -->
               <table class="table table-hover">
                 <tbody>
                 {% for i in result %}
+                  <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{i[0]}}</td>
+                    <td>{{i[1]}}</td>
+                    <td>{{i[2]}}</td>
+                    
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              <!-- End Table with hoverable rows -->
+
+            </div>
+        </div>
+      
+    </div>
+
+    <div class="row">
+      
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Отсутствуют</h5>
+
+              <!-- Table with hoverable rows -->
+              <table class="table table-hover">
+                <tbody>
+                {% for i in result_2 %}
                   <tr>
                     <th scope="row">{{ loop.index }}</th>
                     <td>{{i[0]}}</td>

@@ -344,20 +344,24 @@ def table(id):
 
     except:
         print('error')
-        return "Никто не зарегестрировался"
+        return render_template('nikto.html')
 
 @app.route("/monitoring/<id>")
 def monitoring(id):
     base = DBmanager(host, user, password, name)
     try:
         print(id)
-        result = base.fetchall("SELECT pname, name2, name3 FROM table_%s WHERE active = True", (id))
+        result = base.fetchall(f"SELECT pname, name2, name3 FROM table_{id} WHERE active = True")
         for x in result:
             print(x)
+        result_2 = base.fetchall(f"SELECT pname, name2, name3 FROM table_{id} WHERE active = False")
+        for x in result_2:
+            print(x)
+        return render_template('monitoring.html', result=result, id=id, result_2=result_2)
     except Exception as e:
         print('error:', e)
         result = []  
-    return render_template('monitoring.html', result=result, id=id)
+    return render_template('activnet.html')
 
 
 @app.route("/teamlist/<int:id>/<tname>")
@@ -500,7 +504,7 @@ def update_event():
     except:
         print('error')
 
-    return render_template('delete_event.html', result=result)
+    return render_template('update_event.html', result=result)
 
 
 @app.route("/delete_event", methods=['POST'])
