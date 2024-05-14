@@ -363,6 +363,17 @@ def monitoring(id):
         result = []  
     return render_template('activnet.html')
 
+# @app.route("/change/<id>/<tname>/<pid>")
+# def chage(id, tname):
+#     base = DBmanager(host, user, password, name)
+#     try:
+#         result = base.fetchall(f"SELECT pname, name2, name3 FROM table_{id} WHERE id = {id}")
+#         print(result)
+#         return render_template('change.html', result=result)
+#     except Exception as e:
+#         print('error:', e)
+#         result = []  
+#     return render_template('activnet.html')
 
 @app.route("/teamlist/<int:id>/<tname>")
 def teamlist(id, tname):
@@ -370,7 +381,7 @@ def teamlist(id, tname):
     try:
         print(tname)
         print(id)
-        result = base.fetchall("SELECT pname, name2, name3, email4 FROM table_%s WHERE tname = %s", (id, tname))
+        result = base.fetchall("SELECT pid, pname, name2, name3, email4 FROM table_%s WHERE tname = %s", (id, tname))
         print(f"Result: {result}")  
 
 
@@ -434,7 +445,7 @@ def read_participants():
     data = request.form
     id = data['id']
     base.query(
-        f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, pname text, name2 text, name3 text, email4 text, active boolean DEFAULT False)')
+        f'CREATE TABLE IF NOT EXISTS table_{id} (pid int AUTO_INCREMENT PRIMARY KEY, pname text, name2 text, name3 text, email4 text, active boolean DEFAULT False)')
     pname = data['pname']
     name2 = data['name2']
     name3 = data['name3']
@@ -450,7 +461,7 @@ def read_team():
     data = request.form
     id = data['id']
     base.query(
-        f'CREATE TABLE IF NOT EXISTS table_{id} (id int AUTO_INCREMENT PRIMARY KEY, tname text, pname text, name2 text, name3 text, email4 text)')
+        f'CREATE TABLE IF NOT EXISTS table_{id} (pid int AUTO_INCREMENT PRIMARY KEY, tname text, pname text, name2 text, name3 text, email4 text)')
     tname = data['tname']
     pname = data['pname']
     name2 = data['name2']
